@@ -1,0 +1,372 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 10% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@function isColorDark($color ) {
+    // Parse RGB by isolating each color
+    $red: red($color );
+    $green: green($color );
+    $blue: blue($color );
+    // Compute the perceptive luminance, keeping
+    // in mind that the human eye favors green.
+    $l: 1 - (0.299 * $red + 0.587 * $green + 0.114 * $blue ) / 255;
+
+    /* arguably this should be 0.50, but testing out various colors, this seemed to be the best so far. */
+    @if ($l < 0.41) {
+        // if the luminance is less than 0.5 return black
+        @return #000000;
+    }
+
+    @else {
+        // if the luminance is more than 0.5 return white
+        @return #ffffff;
+    }
+}
+
+$fdr: (
+    "1": #154084,
+    "2": #154084,
+    "3": #D7B418,
+    "4": #BA6E19,
+    "5": #9D2719,
+);
+
+@each $fdr,
+$color in $fdr {
+    .fixture--level-#{$fdr} {
+        background-color: $color;
+        color: isColorDark($color);
+    }
+}
+
+
+$clubs: (
+    "ars": #a50009,
+    "avl": #370019,
+    "bou": #970a10,
+    "bre": #a80000,
+    "bha": #0054a6,
+    "ips": #370019,
+    "che": #162ea7,
+    "cry": #07284f,
+    "eve": #2d2e9d,
+    "ful": #d6d6d6,
+    "liv": #7a130f,
+    "lei": #162ea7,
+    "mun": #9c0707,
+    "mci": #588fbb,
+    "new": #151314,
+    "nfo": #ab0f28,
+    "sou": #ca0511,
+    "tot": #d6d6d6,
+    "whu": #5b1b28,
+    "wol": #ffc245,
+);
+
+
+@each $club,
+$color in $clubs {
+
+    .card--#{$club} .card__header {
+        background-color: $color;
+        color: isColorDark($color);
+        // background: linear-gradient(to right, $color, mix(white, $color, 20%));
+    }
+
+
+    .card--#{$club} .card__club {
+        -webkit-text-stroke: 1px isColorDark($color);
+        font-size: 20px;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .player--#{$club} {
+        background-color: $color;
+        color: isColorDark($color);
+        // background-color: linear-gradient(110deg, $color, mix(white, $color, 20%)25%, $color 50%, mix(white, $color, 20%));
+
+    }
+
+    .club--#{$club} {
+        color: isColorDark($color);
+        // background: $color;
+
+        background: linear-gradient(135deg, $color, mix(black, $color, 20%) 10%);
+        background-image: linear-gradient(transparent 0%, $color 100%);
+        background-color: darken($color, 50%);
+        background-color: $color; // opacity: 0.5;
+
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='rgb(0 0 0 / .2)' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+        // background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='rgb(0 0 0 / .2)' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"), linear-gradient(135deg, $color 25%, transparent 25%), linear-gradient(225deg, $color 25%, transparent 25%), linear-gradient(45deg, $color 25%, transparent 25%), linear-gradient(315deg, $color 25%, invert($color, 20%) 25%);
+
+        background-size: 8px 8px;
+        background-repeat: repeat;
+    }
+
+    .bg-dark--#{$club} {
+        background-color: $color;
+        background-color: darken($color, 5%);
+    }
+
+    .bg--#{$club} {
+        background-color: $color;
+        color: isColorDark($color);
+    }
+}
+
+@layer components {}
+
+.card {
+    border: 2px solid #000;
+    border-radius: 0;
+    background-color: #CCE6CF;
+    // box-shadow: inset 0 0 15px rgba(55, 84, 170, 0),
+    //     inset 0 0 20px rgba(255, 255, 255, 0),
+    //     7px 7px 15px rgba(55, 84, 170, 0.15),
+    //     -7px -7px 20px white,
+    //     inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+
+
+    @media (prefers-color-scheme: dark) {
+        // background:
+        //     linear-gradient(180deg,
+        //         rgba(62, 67, 76, 1) 0%,
+        //         rgba(30, 32, 36, 1) 100%);
+        // box-shadow: 2vw 2vw 8vw black;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            transform: scale(0.97, 0.97);
+            // background: linear-gradient(180deg,
+            //         rgba(49, 56, 61, 1) 0%,
+            //         rgba(24, 25, 29, 1) 100%);
+        }
+
+    }
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
+
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+
+.layout--main {
+    display: grid;
+    gap: .5rem;
+    padding: .5rem;
+    grid-template-areas: "main-nav main-nav main-nav"
+        "left-sidebar main-content main-content";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .layout--main {
+        display: grid;
+        grid-template-areas:
+            "main-nav"
+            "main-content"
+            "left-sidebar";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        position: relative;
+    }
+
+    .sidebar--left {
+        width: 100%;
+        position: absolute;
+        top: 48px;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .sidebar--left {
+        left: 0;
+    }
+}
+
+.sidebar--left {
+    display: grid;
+    grid-area: left-sidebar;
+}
+
+.navbar--main {
+    display: grid;
+    grid-area: main-nav;
+}
+
+.content--main {
+    display: grid;
+    grid-area: main-content;
+}
+
+.control--bar {
+    display: grid;
+    grid-area: main-control;
+    z-index: 10;
+}
