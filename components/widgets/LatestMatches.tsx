@@ -108,7 +108,7 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 						</div>
 						<div className="flex flex-col">
 							{isUpcomingMatch(match) ? (
-								<p className="text-gray-500">Haven't Played</p>
+								<p className="text-gray-500">Not Yet</p>
 							) : match.minutes === 0 ? (
 								<p>DNP</p>
 							) : (
