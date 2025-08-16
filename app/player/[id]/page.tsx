@@ -99,8 +99,8 @@ export default async function Page({ params }: { params: { id: number } }) {
 						<Image
 							className="object-cover"
 							src={
-								"https://resources.premierleague.com/premierleague/photos/players/250x250/p" +
-								player.photo.replace("jpg", "png")
+								"https://resources.premierleague.com/premierleague25/photos/players/110x140/" +
+								(player.photo || "default").replace("jpg", "png")
 							}
 							alt={player.web_name}
 							width={256}

@@ -65,6 +65,7 @@ async function Players({
 	teamName: string;
 }) {
 	const players = await fetchPlayers();
+	const teams = await fetchTeams();
 	const filteredPlayers = getPlayersByTeamCode(teamCode);
 	filteredPlayers.sort((a, b) => b.minutes - a.minutes);
 	// filteredPlayers.sort((a, b) => b.now_cost - a.now_cost);
@@ -95,7 +96,7 @@ async function Players({
 					{fwd.map((player: Player) => (
 						<CardPlayer
 							key={player.id}
-							teamName="teamName"
+							teams={teams}
 							player={player}
 						/>
 					))}
@@ -107,7 +108,7 @@ async function Players({
 					{mid.map((player: Player) => (
 						<CardPlayer
 							key={player.id}
-							teamName="teamName"
+							teams={teams}
 							player={player}
 						/>
 					))}
@@ -119,7 +120,7 @@ async function Players({
 					{def.map((player: Player) => (
 						<CardPlayer
 							key={player.id}
-							teamName="teamName"
+							teams={teams}
 							player={player}
 						/>
 					))}
@@ -131,7 +132,7 @@ async function Players({
 					{gks.map((player: Player) => (
 						<CardPlayer
 							key={player.id}
-							teamName="teamName"
+							teams={teams}
 							player={player}
 						/>
 					))}

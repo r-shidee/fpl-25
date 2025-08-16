@@ -10,6 +10,8 @@ import {
 	faCircleDot,
 	faArrowAltCircleRight,
 } from "@fortawesome/free-regular-svg-icons";
+import { faShield } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Match {
@@ -49,6 +51,7 @@ interface Match {
 	selected: number;
 	transfers_in: number;
 	transfers_out: number;
+	defensive_contribution: number;
 }
 
 interface MatchProps {
@@ -67,6 +70,13 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 	const displayedMatches = showAll
 		? reversedMatches
 		: reversedMatches.slice(0, 5);
+
+	// Helper function to check if match is upcoming
+	const isUpcomingMatch = (match: Match) => {
+		const kickoffTime = new Date(match.kickoff_time);
+		const now = new Date();
+		return kickoffTime > now;
+	};
 
 	return (
 		<div className="p-4 flex flex-col gap-2">
@@ -97,7 +107,9 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 							</div>
 						</div>
 						<div className="flex flex-col">
-							{match.minutes === 0 ? (
+							{isUpcomingMatch(match) ? (
+								<p className="text-gray-500">Haven't Played</p>
+							) : match.minutes === 0 ? (
 								<p>DNP</p>
 							) : (
 								<div>
@@ -172,6 +184,19 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 														icon={faCircleDot}
 													/>
 													<span className="text-xs">{match.assists}</span>
+												</div>
+											</div>
+										)}
+										{match.defensive_contribution !== 0 && (
+											<div className="flex flex-col flex-wrap gap-1 align-baseline">
+												<div className="flex items-center gap-1">
+													<FontAwesomeIcon
+														className="w-3 h-3 "
+														icon={faShield}
+													/>
+													<span className="text-xs">
+														{match.defensive_contribution}
+													</span>
 												</div>
 											</div>
 										)}

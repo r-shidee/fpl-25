@@ -1,19 +1,21 @@
 import FilterComponent from "@/components/FilterComponent";
 import { Player } from "@/types/Player";
+import { Team } from "@/types/Team";
 import { Link } from "next-view-transitions";
 
-async function getData(): Promise<Player[]> {
+async function getData(): Promise<{ players: Player[]; teams: Team[] }> {
 	let data = await fetch(
 		"https://fantasy.premierleague.com/api/bootstrap-static/"
 	);
 	let allData = await data.json();
 	let players = allData.elements;
+	let teams = allData.teams;
 
-	return players;
+	return { players, teams };
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	const players = await getData();
+	const { players, teams } = await getData();
 
 	return (
 		<div className="">
@@ -31,6 +33,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 			<FilterComponent
 				players={players}
+				teams={teams}
 				slug={params.slug}
 				filtering={true}
 			/>

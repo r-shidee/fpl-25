@@ -2,28 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-	--foreground-rgb: 0, 0, 0;
-	--background-start-rgb: 214, 219, 220;
-	--background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--foreground-rgb: 255, 255, 255;
-		--background-start-rgb: 0, 0, 0;
-		--background-end-rgb: 0, 0, 0;
-	}
-}
-
-@layer utilities {
-	.text-balance {
-		text-wrap: balance;
-	}
-}
-
 @layer base {
 	:root {
+		/* Team Colors */
+		--team-ars: #a50009;
+		--team-avl: #370019;
+		--team-bou: #970a10;
+		--team-bre: #a80000;
+		--team-bha: #0054a6;
+		--team-bur: #6c1d45;
+		--team-che: #162ea7;
+		--team-cry: #07284f;
+		--team-eve: #2d2e9d;
+		--team-ful: #d6d6d6;
+		--team-ips: #370019;
+		--team-lee: #ffcd00;
+		--team-lei: #c6360f;
+		--team-liv: #7a130f;
+		--team-mci: #588fbb;
+		--team-mun: #9c0707;
+		--team-new: #151314;
+		--team-nfo: #ab0f28;
+		--team-sun: #ff0000;
+		--team-tot: #d6d6d6;
+		--team-whu: #5b1b28;
+		--team-wol: #ffc245;
+
+		/* Theme Colors */
 		--background: 0 0% 100%;
 		--foreground: 240 10% 3.9%;
 		--card: 0 0% 100%;
@@ -58,6 +63,7 @@
 		--sidebar-border: 220 13% 91%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
 	}
+
 	.dark {
 		--background: 240 10% 3.9%;
 		--foreground: 0 0% 98%;
@@ -92,13 +98,228 @@
 		--sidebar-border: 240 3.7% 15.9%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
 	}
+
+	* {
+		border-color: hsl(var(--border));
+	}
+
+	body {
+		background-color: hsl(var(--background));
+		color: hsl(var(--foreground));
+	}
 }
 
-@layer base {
-	* {
-		@apply border-border;
-	}
-	body {
-		@apply bg-background text-foreground;
+/* Generate dynamic club background classes with enhanced styling */
+
+.club {
+	/* pattern tetap, semua club dapat */
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='rgb(0 0 0 / 0.2)' d='M3 3h1v1H3V3zM1 1h1v1H1V1z'/%3E%3C/svg%3E");
+	background-size: 8px 8px;
+	background-repeat: repeat;
+	background-blend-mode: overlay; /* penting: blend pattern dgn warna/gradient */
+}
+.club--ars {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #a50009, #840007 10%);
+	background-color: #a50009;
+}
+
+.club--avl {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #370019, #2a0013 10%);
+	background-color: #370019;
+}
+
+.club--bou {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #970a10, #7a080d 10%);
+	background-color: #970a10;
+}
+
+.club--bre {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #a80000, #860000 10%);
+	background-color: #a80000;
+}
+
+.club--bha {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #0054a6, #004285 10%);
+	background-color: #0054a6;
+}
+
+.club--bur {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #6c1d45, #561737 10%);
+	background-color: #6c1d45;
+}
+
+.club--che {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #162ea7, #122585 10%);
+	background-color: #162ea7;
+}
+
+.club--cry {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #07284f, #051f3e 10%);
+	background-color: #07284f;
+}
+
+.club--eve {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #2d2e9d, #24257e 10%);
+	background-color: #2d2e9d;
+}
+
+.club--ful {
+	color: #000000;
+	background-image: linear-gradient(135deg, #d6d6d6, #b3b3b3 10%);
+	background-color: #d6d6d6;
+}
+
+.club--ips {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #370019, #2a0013 10%);
+	background-color: #370019;
+}
+
+.club--lee {
+	color: #000000;
+	background-image: linear-gradient(135deg, #ffcd00, #e6b800 10%);
+	background-color: #ffcd00;
+}
+
+.club--lei {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #c6360f, #9e2b0c 10%);
+	background-color: #c6360f;
+}
+
+.club--liv {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #7a130f, #610f0c 10%);
+	background-color: #7a130f;
+}
+
+.club--mci {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #588fbb, #467296 10%);
+	background-color: #588fbb;
+}
+
+.club--mun {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #9c0707, #7d0506 10%);
+	background-color: #9c0707;
+}
+
+.club--new {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #151314, #0f0e0f 10%);
+	background-color: #151314;
+}
+
+.club--nfo {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #ab0f28, #890c20 10%);
+	background-color: #ab0f28;
+}
+
+.club--sun {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #ff0000, #cc0000 10%);
+	background-color: #ff0000;
+}
+
+.club--tot {
+	color: #000000;
+	background-image: linear-gradient(135deg, #d6d6d6, #b3b3b3 10%);
+	background-color: #d6d6d6;
+}
+
+.club--whu {
+	color: #ffffff;
+	background-image: linear-gradient(135deg, #5b1b28, #48151f 10%);
+	background-color: #5b1b28;
+}
+
+.club--wol {
+	color: #000000;
+	background-image: linear-gradient(135deg, #ffc245, #e6ae3e 10%);
+	background-color: #ffc245;
+}
+
+/* Dark variants for team backgrounds */
+.bg-dark--ars {
+	background-color: var(--team-ars);
+}
+.bg-dark--avl {
+	background-color: var(--team-avl);
+}
+.bg-dark--bou {
+	background-color: var(--team-bou);
+}
+.bg-dark--bre {
+	background-color: var(--team-bre);
+}
+.bg-dark--bha {
+	background-color: var(--team-bha);
+}
+.bg-dark--bur {
+	background-color: var(--team-bur);
+}
+.bg-dark--che {
+	background-color: var(--team-che);
+}
+.bg-dark--cry {
+	background-color: var(--team-cry);
+}
+.bg-dark--eve {
+	background-color: var(--team-eve);
+}
+.bg-dark--ful {
+	background-color: var(--team-ful);
+}
+.bg-dark--ips {
+	background-color: var(--team-ips);
+}
+.bg-dark--lee {
+	background-color: var(--team-lee);
+}
+.bg-dark--lei {
+	background-color: var(--team-lei);
+}
+.bg-dark--liv {
+	background-color: var(--team-liv);
+}
+.bg-dark--mci {
+	background-color: var(--team-mci);
+}
+.bg-dark--mun {
+	background-color: var(--team-mun);
+}
+.bg-dark--new {
+	background-color: var(--team-new);
+}
+.bg-dark--nfo {
+	background-color: var(--team-nfo);
+}
+.bg-dark--sun {
+	background-color: var(--team-sun);
+}
+.bg-dark--tot {
+	background-color: var(--team-tot);
+}
+.bg-dark--whu {
+	background-color: var(--team-whu);
+}
+.bg-dark--wol {
+	background-color: var(--team-wol);
+}
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
 	}
 }

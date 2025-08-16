@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import Image from "next/image";
 import { Player } from "@/types/Player";
+import { Team } from "@/types/Team";
 import { Link } from "next-view-transitions";
 import { Slider } from "@/components/ui/slider";
 
@@ -21,12 +22,14 @@ const positions: { [key: number]: string } = {
 
 type FilterComponentProps = {
 	players: Player[];
+	teams: Team[];
 	slug?: string;
 	filtering?: boolean;
 };
 
 const FilterComponent: React.FC<FilterComponentProps> = ({
 	players,
+	teams,
 	slug,
 	filtering,
 }) => {
@@ -115,7 +118,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
 			{filteredPlayers.slice(0, visibleCount).map((player: Player) => (
 				<CardPlayer
 					key={player.id}
-					teamName="teamName"
+					teams={teams}
 					player={player}
 					highlightValue={(player[slug as keyof Player] ?? "").toString()}
 				/>

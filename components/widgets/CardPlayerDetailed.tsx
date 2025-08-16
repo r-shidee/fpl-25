@@ -111,7 +111,8 @@ export default function CardPlayerDetailed({
 	return (
 		<div
 			key={player.id}
-			className={`rounded group p-4 bg-dark--${teams[player.team]}`}>
+			className={`rounded group p-4 bg-dark--${teams[player.team]}`}
+		>
 			<Link href={`/player/${player.id}`}>
 				<div className="grid relative gap-3">
 					<div className="flex relative gap-2 items-center">
@@ -135,19 +136,21 @@ export default function CardPlayerDetailed({
 							</p>
 						</div>
 						<div
-							className={` w-12 h-12 flex justify-end pt-2 pr-2 rounded-bl-full absolute right-0 text-sm `}>
+							className={` w-12 h-12 flex justify-end pt-2 pr-2 rounded-bl-full absolute right-0 text-sm `}
+						>
 							{(player.now_cost / 10).toFixed(1)}
 						</div>
 					</div>
 					<div
 						className={`rounded relative overflow-hidden aspect-square flex ease-in-out items-center club--${
 							teams[player.team]
-						} `}>
+						} `}
+					>
 						<Image
 							className="object-cover absolute bottom-0 w-full group-hover:z-0 group-hover:scale-95 z-10 top-8 -left-8"
 							src={
-								"https://resources.premierleague.com/premierleague/photos/players/250x250/p" +
-								player.photo.replace("jpg", "png")
+								"https://resources.premierleague.com/premierleague25/photos/players/110x140/" +
+								(player.photo || "default").replace("jpg", "png")
 							}
 							alt={player.web_name}
 							width={250}
