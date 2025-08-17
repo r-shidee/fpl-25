@@ -106,3 +106,4 @@ export async function updateTeamColorsFromAPI(): Promise<void> {
 export function getAllTeamColors(): Record<string, TeamColor> {
 	return { ...teamColors };
 }
+

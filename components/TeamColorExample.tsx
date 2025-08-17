@@ -75,3 +75,4 @@ const color = getColor('che');
 		</div>
 	);
 }
+
