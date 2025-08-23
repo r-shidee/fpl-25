@@ -112,6 +112,7 @@ export default async function Page({ params }: { params: { id: number } }) {
 				<LatestMatches
 					matches={fixtures.history}
 					teams={teams}
+					playerPosition={positions[player.element_type]}
 				/>
 				<div className="col-span-1 p-4">
 					<div className="">
@@ -125,15 +126,10 @@ export default async function Page({ params }: { params: { id: number } }) {
 
 				<div className="p-4">
 					<div className="countdown__title tracking-widest font-mono uppercase border-b border-muted-foreground pb-2 mb-2">
-						Expected Stats
+						Stats
 					</div>
 					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead className="w-[100px]">Stats</TableHead>
-								<TableHead className="text-right">Value</TableHead>
-							</TableRow>
-						</TableHeader>
+						
 						<TableBody>
 							<TableRow>
 								<TableCell className="font-medium">xGI</TableCell>
@@ -157,6 +153,38 @@ export default async function Page({ params }: { params: { id: number } }) {
 								<TableCell className="font-medium">xGC</TableCell>
 								<TableCell className="text-right">
 									{player.expected_goals_conceded}
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell className="font-medium">Goals Scored</TableCell>
+								<TableCell className="text-right">
+									{player.goals_scored}
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell className="font-medium">Conceded</TableCell>
+								<TableCell className="text-right">
+									{player.goals_conceded}
+								</TableCell>
+							</TableRow>
+
+							<TableRow>
+								<TableCell className="font-medium">Assists</TableCell>
+								<TableCell className="text-right">
+									{player.assists}
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell className="font-medium">Defcons</TableCell>
+								<TableCell className="text-right">
+									{player.defensive_contribution}
+								</TableCell>
+							</TableRow>
+
+							<TableRow>
+								<TableCell className="font-medium">Defcons per 90</TableCell>
+								<TableCell className="text-right">
+									{player.defensive_contribution_per_90}
 								</TableCell>
 							</TableRow>
 						</TableBody>

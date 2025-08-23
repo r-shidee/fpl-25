@@ -13,7 +13,10 @@ export default function Navbar() {
 	return (
 		<nav className="navbar navbar--main relative">
 			<div className="border-b items-center justify-between gap-4 p-4 h-12 flex">
-				<Link href="/">FPL-24</Link>
+				<div className="flex items-center gap-4">
+					<Link href="/">FPL-24</Link>
+					<Link href="/fixtures">Fixtures</Link>
+				</div>
 				<button
 					className={`header__toggle ${
 						isMenuOpen ? "header__toggle--open" : ""

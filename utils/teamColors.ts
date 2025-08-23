@@ -107,3 +107,4 @@ export function getAllTeamColors(): Record<string, TeamColor> {
 	return { ...teamColors };
 }
 
+

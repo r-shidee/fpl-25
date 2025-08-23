@@ -5,11 +5,11 @@ import { Team } from "@/types/Team";
 import Image from "next/image";
 import {
 	faClock,
-	faHand,
 	faFutbol,
 	faCircleDot,
 	faArrowAltCircleRight,
 } from "@fortawesome/free-regular-svg-icons";
+
 import { faShield } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -57,9 +57,10 @@ interface Match {
 interface MatchProps {
 	matches: Match[];
 	teams: Team[];
+	playerPosition?: string;
 }
 
-const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
+const LatestMatches: React.FC<MatchProps> = ({ matches, teams, playerPosition }) => {
 	const [showAll, setShowAll] = React.useState(false);
 
 	// Reverse the matches array once when received
@@ -76,6 +77,13 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 		const kickoffTime = new Date(match.kickoff_time);
 		const now = new Date();
 		return kickoffTime > now;
+	};
+
+	const shouldHighlight = (dc: number) => {
+		if (!playerPosition) return false;
+		if (playerPosition === "Defender") return dc >= 10;
+		if (playerPosition === "Midfielder" || playerPosition === "Forward") return dc >= 12;
+		return false;
 	};
 
 	return (
@@ -194,7 +202,15 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 														className="w-3 h-3 "
 														icon={faShield}
 													/>
-													<span className="text-xs">
+													<span
+														className={`text-xs ${
+															shouldHighlight(
+																match.defensive_contribution
+															)
+																? "text-green-500 font-medium"
+																: ""
+														}`}
+													>
 														{match.defensive_contribution}
 													</span>
 												</div>
@@ -204,7 +220,7 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams }) => {
 											<div className="flex flex-col flex-wrap gap-1 align-center justify-center">
 												<div className="flex items-center gap-1">
 													<span className="text-xs">
-														{match.expected_goal_involvements}xgi
+														{match.expected_goal_involvements} xgi
 													</span>
 												</div>
 											</div>

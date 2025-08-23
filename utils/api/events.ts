@@ -2,26 +2,37 @@ import { Event } from "@/types/Event";
 
 // Helper function to get the base URL
 function getBaseUrl() {
-	if (typeof window !== "undefined") {
-		// Client-side: use relative URL
-		return "";
-	}
-	// Server-side: use absolute URL
-	return process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+  if (typeof window !== "undefined") {
+    // Client-side: use relative URL
+    return "";
+  }
+  // Server-side: use absolute URL
+  // Default to Next.js server port (3000) if NEXT_PUBLIC_BASE_URL isn't set.
+  return (
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    `http://localhost:${process.env.PORT || 3000}`
+  );
 }
 
 export async function fetchEvents(): Promise<Event[]> {
-	const baseUrl = getBaseUrl();
-	const response = await fetch(`${baseUrl}/api/events`, {
-		cache: "no-store",
-		headers: {
-			"Cache-Control": "no-cache",
-		},
-	});
+  const baseUrl = getBaseUrl();
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/api/events`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
+  } catch (err) {
+    throw new Error(
+      `fetchEvents failed fetching ${baseUrl}/api/events: ${err}`
+    );
+  }
 
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 
-	return await response.json();
+  return await response.json();
 }
