@@ -1,36 +1,21 @@
 import { Team } from "@/types/Team";
 
 // Helper function to get the base URL
-function getBaseUrl() {
-  if (typeof window !== "undefined") {
-    // Client-side: use relative URL
-    return "";
-  }
-  // Server-side: use absolute URL
-  // Default to Next.js server port (3000) if NEXT_PUBLIC_BASE_URL isn't set.
-  return (
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    `http://localhost:${process.env.PORT || 3000}`
-  );
+function isClient() {
+  return typeof window !== "undefined";
 }
 
 export async function fetchTeams(): Promise<Team[]> {
-  const baseUrl = getBaseUrl();
-  let response: Response;
-  try {
-    response = await fetch(`${baseUrl}/api/teams`, {
-      cache: "no-store",
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    });
-  } catch (err) {
-    throw new Error(`fetchTeams failed fetching ${baseUrl}/api/teams: ${err}`);
+  // Client: call internal API route so caching/headers from the server routes are preserved.
+  if (isClient()) {
+    const res = await fetch(`/api/teams`);
+    if (!res.ok) throw new Error(`Failed to fetch teams (client): ${res.status}`);
+    return await res.json();
   }
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return await response.json();
+  // Server: fetch bootstrap-static directly from FPL to avoid internal /api calls during prerender/build.
+  const res = await fetch("https://fantasy.premierleague.com/api/bootstrap-static/");
+  if (!res.ok) throw new Error("Failed to fetch bootstrap data from FPL");
+  const data = await res.json();
+  return data.teams || [];
 }

@@ -1,59 +1,32 @@
 import { Player } from "@/types/Player";
 
-// Helper function to get the base URL
-function getBaseUrl() {
-  if (typeof window !== "undefined") {
-    // Client-side: use relative URL
-    return "";
-  }
-  // Server-side: use absolute URL
-  // Default to the same port the Next.js server runs on (usually 3000) when
-  // NEXT_PUBLIC_BASE_URL isn't provided. This avoids trying to connect to
-  // an unrelated backend on port 3001 by accident.
-  return (
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    `http://localhost:${process.env.PORT || 3000}`
-  );
-}
-
+// Fetch players from FPL bootstrap-static which contains players list.
 export async function fetchPlayers(): Promise<Player[]> {
-  const baseUrl = getBaseUrl();
+  const url = "https://fantasy.premierleague.com/api/bootstrap-static/";
   let response: Response;
   try {
-    response = await fetch(`${baseUrl}/api/players`, {
-      cache: "no-store",
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    });
+    response = await fetch(url);
   } catch (err) {
-    // Re-throw with extra context so logs show which host/port failed
-    throw new Error(
-      `fetchPlayers failed fetching ${baseUrl}/api/players: ${err}`
-    );
+    throw new Error(`fetchPlayers failed fetching ${url}: ${err}`);
   }
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  return await response.json();
+  const data = await response.json();
+  // bootstrap-static contains `elements` array which represents players
+  return data.elements as Player[];
 }
 
+// Fetch player detail (element-summary) for a specific player
 export async function fetchPlayer(playerID: number | string): Promise<Player> {
-  const baseUrl = getBaseUrl();
+  const url = `https://fantasy.premierleague.com/api/element-summary/${playerID}/`;
   let response: Response;
   try {
-    response = await fetch(`${baseUrl}/api/players/${playerID}`, {
-      cache: "no-store",
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    });
+    response = await fetch(url);
   } catch (err) {
-    throw new Error(
-      `fetchPlayer failed fetching ${baseUrl}/api/players/${playerID}: ${err}`
-    );
+    throw new Error(`fetchPlayer failed fetching ${url}: ${err}`);
   }
 
   if (!response.ok) {

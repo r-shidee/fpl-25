@@ -5,21 +5,21 @@ import FixturesGrid from "@/components/widgets/FixturesGrid";
 
 // Server-side page to fetch all fixtures and teams then render the client component
 export default async function Page() {
-  // Use internal API route which returns { fixtures, teams }
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
-  const res = await fetch(`${baseUrl}/api/fpl/fixtures/`, { cache: "no-store" });
-  if (!res.ok) {
-    throw new Error("Failed to fetch fixtures");
-  }
+  // Fetch directly from FPL public endpoints to avoid calling internal /api routes at build time
+  const [fixturesRes, bootstrapRes] = await Promise.all([
+    fetch("https://fantasy.premierleague.com/api/fixtures/"),
+    fetch("https://fantasy.premierleague.com/api/bootstrap-static/"),
+  ]);
 
-  const data = await res.json();
-  const fixtures = data.fixtures || [];
-  const teams = data.teams || [];
+  if (!fixturesRes.ok) throw new Error("Failed to fetch fixtures from FPL");
+  if (!bootstrapRes.ok) throw new Error("Failed to fetch bootstrap data from FPL");
 
-  // fetch events to determine nextEventId
-  const eventsRes = await fetch(`${baseUrl}/api/events`, { cache: "no-store" });
-  const eventsData = eventsRes.ok ? await eventsRes.json() : [];
-  const nextEvent = eventsData.find((e: any) => e.is_next);
+  const fixtures = await fixturesRes.json();
+  const bootstrap = await bootstrapRes.json();
+  const teams = bootstrap.teams || [];
+
+  const events = bootstrap.events || [];
+  const nextEvent = events.find((e: any) => e.is_next);
   const nextEventId = nextEvent?.id || 1;
 
   return (
