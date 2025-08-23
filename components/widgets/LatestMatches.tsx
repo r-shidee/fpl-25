@@ -10,7 +10,7 @@ import {
 	faArrowAltCircleRight,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { faShield } from "@fortawesome/free-solid-svg-icons";
+import { faHand, faShield } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -167,7 +167,7 @@ const LatestMatches: React.FC<MatchProps> = ({ matches, teams, playerPosition })
 												<div className="flex items-center gap-1">
 													<FontAwesomeIcon
 														className="w-3 h-3 "
-														icon={faFutbol}
+														icon={faHand}
 													/>
 													<span className="text-xs">{match.saves}</span>
 												</div>

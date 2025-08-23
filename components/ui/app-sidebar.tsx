@@ -63,6 +63,10 @@ const items = [
 		title: "PPG",
 		url: "/points_per_game",
 	},
+	{
+		title: "PPG",
+		url: "/fixtures",
+	},
 ];
 
 export function AppSidebar() {
